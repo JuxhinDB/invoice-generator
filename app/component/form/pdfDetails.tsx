@@ -25,7 +25,6 @@ export const PdfDetails = ({
     <InvoiceTermsPdf {...invoiceTerms} />
     <View
       style={{
-        display: "flex",
         flexDirection: "row",
         ...pdfUtils.borderTop,
         ...pdfUtils.borderBottom,
@@ -38,7 +37,7 @@ export const PdfDetails = ({
       <View style={pdfUtils.borderBottom}>
         <InvoiceDetailsPdf {...invoiceDetails} />
       </View>
-      <View>
+      <View style={{ paddingTop: 168 }}>
         <PaymentDetailsPdf
           {...paymentDetails}
           countryImageUrl={countryImageUrl}

@@ -9,13 +9,13 @@ interface PaymentDetailsPdfProps extends PaymentDetails {
 }
 
 export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
+  beneficiaryName,
+  iban,
+  bicSwift,
   bankName,
-  accountNumber,
-  accountName,
-  routingCode,
-  swiftCode,
-  ifscCode,
-  currency = "INR",
+  bankAddress,
+  correspondingBic,
+  currency = "EUR",
   countryImageUrl,
 }) => {
   const currencyDetails = currencyList.find(
@@ -24,138 +24,63 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
   )?.details;
 
   return (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "row",
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          paddingLeft: 40,
-          paddingRight: 12,
-          paddingVertical: 16,
-          flexDirection: "column",
-        }}
-      >
-        <Text style={{ paddingBottom: 12, ...pdfTypography.title }}>
-          Bank Details
-        </Text>
-        <View style={{ flexDirection: "column", gap: 5 }}>
-          <View style={pdfUtils.flexRowItemCenter}>
-            <Text style={pdfTypography.paymentTitle}>Bank Name</Text>
-            <Text
-              style={{
-                flex: 1,
-                ...pdfTypography.itemDescription,
-                paddingLeft: 44.5,
-              }}
-            >
-              {bankName ? bankName : "-"}
-            </Text>
-          </View>
-          <View style={pdfUtils.flexRowItemCenter}>
-            <Text style={pdfTypography.paymentTitle}>Account Number</Text>
-            <Text
-              style={{
-                flex: 1,
-                ...pdfTypography.itemDescription,
-                paddingLeft: 14,
-              }}
-            >
-              {accountNumber ? accountNumber : "-"}
-            </Text>
-          </View>
-          <View style={pdfUtils.flexRowItemCenter}>
-            <Text style={pdfTypography.paymentTitle}>Account Name</Text>
-            <Text
-              style={{
-                flex: 1,
-                ...pdfTypography.itemDescription,
-                paddingLeft: 26,
-              }}
-            >
-              {accountName ? accountName : "-"}
-            </Text>
-          </View>
-          <View style={pdfUtils.flexRowItemCenter}>
-            <Text style={pdfTypography.paymentTitle}>Swift Code</Text>
-            <Text
-              style={{
-                flex: 1,
-                ...pdfTypography.itemDescription,
-                paddingLeft: 45,
-              }}
-            >
-              {swiftCode ? swiftCode : "-"}
-            </Text>
-          </View>
-          {ifscCode ? (
+    <View>
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        <View style={{ flex: 1, paddingLeft: 40, paddingRight: 12, paddingVertical: 16 }}>
+          <Text style={{ ...pdfTypography.title, marginBottom: 12 }}>Bank Details</Text>
+          <View style={{ gap: 4 }}>
             <View style={pdfUtils.flexRowItemCenter}>
-              <Text style={pdfTypography.paymentTitle}>IFSC Code</Text>
-              <Text
-                style={{
-                  flex: 1,
-                  ...pdfTypography.itemDescription,
-                  paddingLeft: 48,
-                }}
-              >
-                {ifscCode}
-              </Text>
+              <Text style={{ width: 100, ...pdfTypography.paymentTitle }}>Beneficiary Name</Text>
+              <Text style={pdfTypography.description}>{beneficiaryName || "-"}</Text>
             </View>
-          ) : undefined}
-          {routingCode ? (
             <View style={pdfUtils.flexRowItemCenter}>
-              <Text style={pdfTypography.paymentTitle}>Routing Code</Text>
-              <Text
-                style={{
-                  flex: 1,
-                  ...pdfTypography.itemDescription,
-                  paddingLeft: 32,
-                }}
-              >
-                {routingCode}
-              </Text>
+              <Text style={{ width: 100, ...pdfTypography.paymentTitle }}>IBAN</Text>
+              <Text style={pdfTypography.description}>{iban || "-"}</Text>
             </View>
-          ) : undefined}
+            <View style={pdfUtils.flexRowItemCenter}>
+              <Text style={{ width: 100, ...pdfTypography.paymentTitle }}>BIC/SWIFT</Text>
+              <Text style={pdfTypography.description}>{bicSwift || "-"}</Text>
+            </View>
+            <View style={pdfUtils.flexRowItemCenter}>
+              <Text style={{ width: 100, ...pdfTypography.paymentTitle }}>Bank Name</Text>
+              <Text style={pdfTypography.description}>{bankName || "-"}</Text>
+            </View>
+            <View style={pdfUtils.flexRowItemCenter}>
+              <Text style={{ width: 100, ...pdfTypography.paymentTitle }}>Bank Address</Text>
+              <Text style={{ ...pdfTypography.description, flex: 1, flexWrap: 'wrap' }}>{bankAddress || "-"}</Text>
+            </View>
+            <View style={pdfUtils.flexRowItemCenter}>
+              <Text style={{ width: 100, ...pdfTypography.paymentTitle }}>Corresponding BIC</Text>
+              <Text style={pdfTypography.description}>{correspondingBic || "-"}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ flex: 1, paddingLeft: 40, paddingRight: 12, paddingVertical: 16 }}>
+          <Text style={{ ...pdfTypography.title, marginBottom: 12 }}>Payable in</Text>
+          {currencyDetails && (
+            <View style={{ ...pdfUtils.flexRowItemCenter, gap: 8 }}>
+              <Image src={countryImageUrl} style={{ width: 20, height: 20, borderRadius: 10, objectFit: 'cover' }} />
+              <View>
+                <Text style={{ ...pdfTypography.description, fontSize: 12 }}>
+                  {currencyDetails.currencyName}
+                </Text>
+                <Text style={pdfTypography.title}>
+                  {currencyDetails.currencySymbol} {currencyDetails.currencyShortForm}
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
       </View>
-      <View
-        style={{
-          flex: 1,
-          paddingLeft: 40,
-          paddingRight: 12,
-          paddingVertical: 16,
-          flexDirection: "column",
-        }}
-      >
-        <Text style={{ ...pdfTypography.title, paddingBottom: 12 }}>
-          Payable in
+      <View style={{ paddingRight: 40, paddingTop: 48, paddingBottom: 24 }}>
+        <Text style={{ 
+          fontFamily: "Berkeley Mono",
+          fontSize: 24,
+          textAlign: "right",
+          color: "#1f2937"
+        }}>
+          Thank You.
         </Text>
-        {currencyDetails && (
-          <View style={{ ...pdfUtils.flexRowItemCenter, gap: 8 }}>
-            <Image
-              src={countryImageUrl}
-              style={{
-                width: 30,
-                height: 30,
-                flexShrink: 0,
-                borderRadius: "100%",
-                objectFit: "cover",
-              }}
-            />
-            <View>
-              <Text style={{ fontSize: 14, fontWeight: "medium" }}>
-                {currencyDetails.currencyName}
-              </Text>
-              <Text style={pdfTypography.title}>
-                {currencyDetails.currencySymbol}{" "}
-                {currencyDetails.currencyShortForm}
-              </Text>
-            </View>
-          </View>
-        )}
       </View>
     </View>
   );

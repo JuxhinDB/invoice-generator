@@ -1,7 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { GeistSans } from "geist/font/sans";
-import Script from "next/script";
+import localFont from 'next/font/local'
+import { GeistSans } from 'geist/font/sans'
+
+const berkeley = localFont({
+  src: '../public/font/BerkeleyMono-Regular.ttf',
+  variable: '--font-berkeley',
+})
+
+const geist = GeistSans
 
 export const viewport: Viewport = {
   themeColor: "#f97316",
@@ -76,7 +83,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#f97316" />
         <meta name="theme-color" content="#f97316" />
       </head>
-      <body className={`${GeistSans.className}`}>{children}</body>
+      <body className={`${berkeley.variable} ${geist.variable}`}>{children}</body>
     </html>
   );
 }

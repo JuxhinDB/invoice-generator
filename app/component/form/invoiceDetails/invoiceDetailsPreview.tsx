@@ -5,19 +5,17 @@ import { ChevronDown } from "lucide-react";
 
 export const InvoiceDetailsPreview: React.FC<
   InvoiceItemDetails & { onClick?: (step: string) => void }
-> = ({ note, discount, taxRate, items, currency = "INR", onClick }) => {
-  const currencyType = currency;
+> = ({ items, note, currency = "INR", onClick }) => {
   const currencyDetails = currencyList.find(
-    (currency) => currency.value.toLowerCase() === currencyType.toLowerCase()
+    (currencyDetails) =>
+      currencyDetails.value.toLowerCase() === currency.toLowerCase()
   )?.details;
-  const subtotal = calculateTotalAmount(items);
-  const discountAmount = subtotal - (discount ? +discount : 0);
-  const taxAmount = discountAmount * ((taxRate ? +taxRate : 0) / 100);
-  const totalAmount = discountAmount + taxAmount;
+
+  const total = items.reduce((acc, item) => acc + (item.amount || 0), 0);
 
   return (
     <div
-      className="group cursor-pointer relative"
+      className="border-b border-dashed cursor-pointer relative group"
       onClick={() => onClick && onClick("3")}
     >
       {!!onClick && (
@@ -28,126 +26,34 @@ export const InvoiceDetailsPreview: React.FC<
           <ChevronDown className="animate-pulse w-5 h-5 text-orange-500 -rotate-45 group-hover:block hidden absolute bottom-0 right-0 " />
         </>
       )}
-      <div className="grid grid-cols-2 items-center">
-        <div className="py-4 px-10">
-          <p className="text-[11px] text-neutral-400 font-medium uppercase">
-            Description
-          </p>
-        </div>
-        <div className="py-4 px-10 grid grid-cols-3 items-center">
-          <div>
-            <p className="text-[11px] text-neutral-400 font-medium uppercase">
-              QTY
-            </p>
-          </div>
-          <div>
-            <p className="text-[11px] text-neutral-400 font-medium uppercase">
-              Price
-            </p>
-          </div>
-          <div>
-            <p className="text-[11px] text-neutral-400 font-medium uppercase text-right">
-              Amount
-            </p>
-          </div>
-        </div>
-      </div>
-      {items.map(({ itemDescription, amount, qty }, index) => (
-        <div
-          className={`grid grid-cols-2 items-center border-b ${
-            index === 0 ? "border-t" : ""
-          } border-dashed mx-10 py-3`}
-          key={index}
-        >
-          <p className="flex truncate text-xs font-medium text-gray-600">
-            {itemDescription}
-          </p>
-          <div className="pl-10 grid grid-cols-3 items-center">
-            <p className="flex truncate text-xs font-medium text-gray-600">
-              {qty || "-"}
-            </p>
-            <p className="flex truncate text-xs font-medium text-gray-600">
-              {amount ? addCommasToNumber(amount) : ""}
-            </p>
-            <p className="flex items-end w-full text-xs font-medium text-gray-600 text-right justify-end">
-              {currencyDetails?.currencySymbol}
-              {amount ? addCommasToNumber((qty ? qty : 1) * amount) : ""}
-            </p>
-          </div>
-        </div>
-      ))}
-      <div className="grid grid-cols-2">
-        {note ? (
-          <div className="pt-6 pb-4">
-            <p className="flex truncate text-xs font-medium text-neutral-400 pb-1 px-10">
-              Note
-            </p>
-            <p className="text-xs font-medium text-neutral-400 px-10 break-words">
-              {note}
-            </p>
-          </div>
-        ) : (
-          <div />
-        )}
-        <div>
-          <div className="flex justify-between items-center mx-10 border-b border-dashed py-3">
-            <p className="flex truncate text-xs font-medium text-gray-600">
-              Subtotal
-            </p>
-            <p className="flex truncate text-xs font-medium text-gray-600">
-              {currencyDetails?.currencySymbol}
-              {addCommasToNumber(subtotal)}
-            </p>
-          </div>
-          {discount && (
-            <div className="flex justify-between items-center mx-10 border-b border-dashed py-3">
-              <p className="flex truncate text-xs font-medium text-gray-600">
-                Discount
+      <div className="py-4 px-10">
+        <p className="text-[11px] text-neutral-400 font-semibold uppercase pb-3.5 font-geist">
+          Invoice Details
+        </p>
+        <div className="space-y-4">
+          {items.map((item, index) => (
+            <div key={index} className="grid grid-cols-2 gap-4">
+              <p className="text-sm text-gray-600 font-medium font-berkeley">
+                {item.itemDescription}
               </p>
-              <p className="flex truncate text-xs font-medium text-gray-600">
-                {currencyDetails?.currencySymbol}
-                {discount ? addCommasToNumber(+discount) : ""}
+              <p className="text-right text-sm font-medium font-berkeley">
+                {currencyDetails?.currencySymbol} {(item.amount || 0).toLocaleString()}
               </p>
             </div>
+          ))}
+          {note && (
+            <p className="text-xs text-gray-500 font-berkeley">{note}</p>
           )}
-          {taxRate && (
-            <div className="flex justify-between items-center mx-10 border-b border-dashed py-3">
-              <p className="flex truncate text-xs font-medium text-gray-600">
-                Tax ({taxRate})%
-              </p>
-              <p className="flex truncate text-xs font-medium text-gray-600">
-                {currencyDetails?.currencySymbol}
-                {addCommasToNumber(+taxAmount.toFixed(2))}
+          <div className="pt-2 border-t border-dashed">
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-gray-500 font-geist">Total</p>
+              <p className="text-sm font-medium font-berkeley">
+                {currencyDetails?.currencySymbol} {total.toLocaleString()}
               </p>
             </div>
-          )}
-          <div className="flex justify-between items-center px-10 py-3">
-            <div>
-              <p className="flex truncate text-xs font-medium text-gray-600">
-                Amount
-              </p>
-            </div>
-            <p className="flex truncate text-md font-medium">
-              {currencyDetails?.currencySymbol}
-              {addCommasToNumber(totalAmount)}
-            </p>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-const calculateTotalAmount = (items: Item[]): number =>
-  items.reduce((total, item) => {
-    const quantity = item.qty ? +item.qty : 1;
-    const amount = item.amount ? +item.amount : 0;
-    return total + quantity * amount;
-  }, 0);
-
-const addCommasToNumber = (number: number): string => {
-  let numberString = number.toString();
-  const parts = numberString.split(".");
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return parts.join(".");
 };

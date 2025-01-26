@@ -24,8 +24,6 @@ interface YourDetails {
 
 interface InvoiceItemDetails {
   note?: string | null;
-  discount?: string | null;
-  taxRate?: string | null;
   items: Item[];
   currency?: string;
 }
@@ -43,12 +41,12 @@ interface InvoiceTerms {
 }
 
 interface PaymentDetails {
+  beneficiaryName?: string | null;
+  iban?: string | null;
+  bicSwift?: string | null;
   bankName?: string | null;
-  accountNumber?: string | null;
-  accountName?: string | null;
-  routingCode?: string | null;
-  swiftCode?: string | null;
-  ifscCode?: string | null;
+  bankAddress?: string | null;
+  correspondingBic?: string | null;
   currency?: string;
 }
 

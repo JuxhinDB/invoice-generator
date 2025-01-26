@@ -22,16 +22,14 @@ export const useData = () => {
   const companyZip = useGetValue("companyZip");
 
   const note = useGetValue("note");
-  const discount = useGetValue("discount");
-  const taxRate = useGetValue("tax");
   const items = useItemParams();
 
+  const beneficiaryName = useGetValue("beneficiaryName");
+  const iban = useGetValue("iban");
+  const bicSwift = useGetValue("bicSwift");
   const bankName = useGetValue("bankName");
-  const accountNumber = useGetValue("accountNumber");
-  const accountName = useGetValue("accountName");
-  const routingCode = useGetValue("routingCode");
-  const swiftCode = useGetValue("swiftCode");
-  const ifscCode = useGetValue("ifscCode");
+  const bankAddress = useGetValue("bankAddress");
+  const correspondingBic = useGetValue("correspondingBic");
 
   const invoiceNumber = useGetValue("invoiceNo");
   const issueDate = useGetValue("issueDate");
@@ -47,19 +45,17 @@ export const useData = () => {
 
   const invoiceDetails = {
     note,
-    discount,
-    taxRate,
     items,
     currency,
   };
 
   const paymentDetails = {
-    bankName: bankName,
-    accountNumber: accountNumber,
-    accountName: accountName,
-    routingCode: routingCode,
-    swiftCode: swiftCode,
-    ifscCode: ifscCode,
+    beneficiaryName,
+    iban,
+    bicSwift,
+    bankName,
+    bankAddress,
+    correspondingBic,
     currency
   };
 

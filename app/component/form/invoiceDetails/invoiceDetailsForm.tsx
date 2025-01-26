@@ -158,16 +158,6 @@ export const InvoiceDetailsForm = () => {
               <p className="pt-3 font-medium text-sm text-neutral-500 pb-5">
                 More options
               </p>
-              <CustomNumberInput
-                label="Discount"
-                placeholder={`${currencyDetails?.currencySymbol}0`}
-                variableName="discount"
-              />
-              <CustomNumberInput
-                label="Taxes"
-                placeholder="0%"
-                variableName="tax"
-              />
             </div>
           </div>
         </div>

@@ -17,7 +17,7 @@ export const YourDetailsPDF: React.FC<YourDetails> = ({
   yourTaxId,
   yourZip,
 }) => (
-  <View style={pdfContainers.YourDetails}>
+  <View style={pdfContainers.yourDetails}>
     <Text style={{ ...pdfTypography.title, marginBottom: 14 }}>From</Text>
 
     <View style={pdfContainers.imageContainer}>

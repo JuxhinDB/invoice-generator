@@ -10,41 +10,52 @@ const colors = {
 
 export const pdfTypography = StyleSheet.create({
     title: {
-        fontSize: 11,
+        fontFamily: "Geist",
+        fontSize: 8,
         fontWeight: "semibold",
         textTransform: "uppercase",
-        color: colors.gray400
+        color: colors.gray400,
+        marginBottom: 6
     },
     subTitle: {
-        fontSize: 12,
-        fontWeight: "medium",
+        fontFamily: "Berkeley Mono",
+        fontSize: 9,
     },
     text2xl: {
-        fontSize: 24,
-        fontWeight: 'medium'
+        fontFamily: "Berkeley Mono",
+        fontSize: 16,
+        marginBottom: 8
     },
     description: {
+        fontFamily: "Berkeley Mono",
         color: colors['gray550/900'],
-        fontSize: 12
+        fontSize: 8,
+        lineHeight: 1.4
     },
     itemDescription: {
+        fontFamily: "Berkeley Mono",
         color: colors.gray600,
-        fontSize: 12,
-        fontWeight: "medium",
-        flexWrap: 'wrap'
+        fontSize: 8,
+        lineHeight: 1.4
     },
     amount: {
-        fontSize: 16,
-        fontWeight: "medium",
+        fontFamily: "Berkeley Mono",
+        fontSize: 11,
         flexWrap: 'wrap'
     },
     paymentTitle: {
-        fontSize: 12,
-        fontWeight: "medium",
+        fontFamily: "Geist",
+        fontSize: 8,
+        fontWeight: "normal",
         flexWrap: 'wrap',
         color: colors.gray500
+    },
+    thankYou: {
+        fontFamily: "Berkeley Mono",
+        fontSize: 8,
+        color: "#666",
+        textAlign: "right"
     }
-
 })
 
 export const pdfUtils = StyleSheet.create({
@@ -79,22 +90,27 @@ export const pdfUtils = StyleSheet.create({
 
 export const pdfContainers = StyleSheet.create({
     page: {
-        fontFamily: "Geist",
+        fontFamily: "Berkeley Mono",
+        padding: "28px 0",
+        fontSize: 8,
+        lineHeight: 1.4
     },
     invoiceTerms: {
-        paddingHorizontal: 40,
-        paddingVertical: 20,
+        paddingHorizontal: 28,
+        paddingVertical: 16,
         display: 'flex',
         alignItems: "center",
         flexDirection: 'row',
     },
-    YourDetails: {
-        paddingHorizontal: 40,
+    yourDetails: {
+        paddingHorizontal: 28,
         paddingVertical: 16,
-        flex: 1
+        flex: 1,
+        borderRight: `1px solid ${colors.gray200}`,
+        borderRightStyle: 'dashed'
     },
-    CompanyDetails: {
-        paddingHorizontal: 40,
+    companyDetails: {
+        paddingHorizontal: 28,
         paddingVertical: 16,
         flex: 1
     },
@@ -103,8 +119,8 @@ export const pdfContainers = StyleSheet.create({
         display: "flex",
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        height: 40,
-        marginBottom: 12,
+        height: 28,
+        marginBottom: 12
     }
 })
 
